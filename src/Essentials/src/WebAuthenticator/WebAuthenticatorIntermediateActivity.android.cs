@@ -26,11 +26,11 @@ namespace Microsoft.Maui.Authentication
 			}
 
 			// read the values
-			launched = extras.GetBoolean(launchedExtra, false);
+			launched = extras?.GetBoolean(launchedExtra, false) ?? false;
 #pragma warning disable 618 // TODO: one day use the API 33+ version: https://developer.android.com/reference/android/os/Bundle#getParcelable(java.lang.String,%20java.lang.Class%3CT%3E)
 #pragma warning disable CA1422 // Validate platform compatibility
 #pragma warning disable CA1416 // Validate platform compatibility
-			actualIntent = extras.GetParcelable(actualIntentExtra) as Intent;
+			actualIntent = extras?.GetParcelable(actualIntentExtra) as Intent;
 #pragma warning restore CA1422 // Validate platform compatibility
 #pragma warning restore CA1416 // Validate platform compatibility
 #pragma warning restore 618
@@ -40,7 +40,7 @@ namespace Microsoft.Maui.Authentication
 		{
 			base.OnResume();
 
-			if (!launched)
+			if (actualIntent != null && !launched)
 			{
 				// if this is the first time, start the authentication flow
 				StartActivity(actualIntent);
